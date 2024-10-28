@@ -11,19 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+        uses: actions/checkout@v4
 
       - name: Install yamllint
         run: pip install yamllint
 
       - name: Run YAML lint
-        run: |
-          yamllint .
+        run: yamllint .
         continue-on-error: true
         id: yaml-lint
 
