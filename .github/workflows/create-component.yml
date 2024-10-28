@@ -1,0 +1,39 @@
+name: YAML Lint and Component Publish
+
+on:
+  push:
+    paths:
+      - '**.yaml'
+      - '**.yml'
+
+jobs:
+  lint-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Run YAML lint
+        run: |
+          yamllint .
+        continue-on-error: true
+        id: yaml-lint
+
+      - name: Check YAML lint result
+        if: steps.yaml-lint.outcome == 'failure'
+        run: |
+          echo "YAML lint check failed. Stopping the workflow."
+          exit 1
+
+      - name: Publish new component (to staging)
+        if: steps.yaml-lint.outcome == 'success'
+        run: |
+          echo 'ok'
