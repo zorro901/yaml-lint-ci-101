@@ -3,8 +3,8 @@ name: YAML Lint and Component Publish
 on:
   push:
     paths:
-      - '**.yaml'
-      - '**.yml'
+      - 'sample/a_common1/**/*.yaml'
+      - 'sample/c_common1/**/*.yml'
 
 jobs:
   lint-and-publish:
