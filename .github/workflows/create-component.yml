@@ -16,18 +16,8 @@ jobs:
       - name: Install yamllint
         run: pip install yamllint
 
-      - name: Get changed YAML files
-        id: get_changed_files
-        run: |
-          # Get list of changed .yaml and .yml files
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.ya?ml$')
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
-
-      - name: Run YAML lint on changed files
-        if: env.changed_files != ''
-        run: |
-          # Run yamllint only on changed files
-          yamllint ${{ env.changed_files }}
+      - name: Run YAML lint
+        run: yamllint .
         continue-on-error: true
         id: yaml-lint
 
